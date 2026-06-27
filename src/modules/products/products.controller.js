@@ -1,17 +1,11 @@
+import Product from "./product.model.js";
+
 export const getProducts = async (req, res) => {
   try {
-    console.log("get products successfully!");
-    // ! Truy vấn  vào database.
-    // trả lời client
-    return res.status(200).json({
-      message: "Lay san pham thanh cong!",
-      data: [
-        {
-          id: 1,
-          name: "iphone",
-          price: 200,
-        },
-      ],
+    const data = await Product.find();
+    res.status(200).json({
+      message: "Get products successfully",
+      data,
     });
   } catch (error) {
     console.log(error);
@@ -19,6 +13,17 @@ export const getProducts = async (req, res) => {
 };
 
 export const getDetailProduct = async (req, res) => {};
-export const createProduct = async (req, res) => {};
+export const createProduct = async (req, res) => {
+  try {
+    // ! Validate data
+    const newProduct = await Product.create(req.body);
+    res.status(201).json({
+      message: "Create product successfully",
+      data: newProduct,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 export const updateProduct = async (req, res) => {};
 export const deleteProduct = async (req, res) => {};
